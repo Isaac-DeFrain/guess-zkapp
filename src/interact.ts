@@ -1,5 +1,5 @@
 /**
- * This script can be used to interact with the Add contract, after deploying it.
+ * This script can be used to interact with the Guess contract, after deploying it.
  *
  * We call the update() method on the contract, create a proof and send it to the chain.
  * The endpoint that we interact with is read from your config.json.
@@ -14,7 +14,7 @@
  */
 import { Mina, PrivateKey, shutdown } from 'snarkyjs';
 import fs from 'fs/promises';
-import { Add } from './Add.js';
+import { Guess } from './Guess.js';
 
 // check command line arg
 let network = process.argv[2];
@@ -42,11 +42,11 @@ let zkAppKey = PrivateKey.fromBase58(key.privateKey);
 const Network = Mina.Network(config.url);
 Mina.setActiveInstance(Network);
 let zkAppAddress = zkAppKey.toPublicKey();
-let zkApp = new Add(zkAppAddress);
+let zkApp = new Guess(zkAppAddress);
 
 // compile the contract to create prover keys
 console.log('compile the contract...');
-await Add.compile();
+await Guess.compile();
 
 // call update() and send transaction
 console.log('build transaction and create proof...');
