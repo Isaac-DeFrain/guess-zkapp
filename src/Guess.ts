@@ -48,20 +48,24 @@ class Guess extends SmartContract {
   init() {
     super.init();
 
+    // TODO read duration + fee from Guess.parameters.json
+    let fee = new UInt64(2e9);
+    this.duration = new UInt32(100);
+
+    // TODO write secretNumber to Guess.secretNumber
+    this.secretNumber = Field.random();
+
     let currBlock = this.network.blockchainLength.get();
     this.network.blockchainLength.assertEquals(currBlock);
 
     // initialize startBlock + endBlock
-    this.duration = new UInt32(100);
     this.startBlock.set(currBlock);
     this.endBlock.set(currBlock.add(this.duration));
 
     // initialize secretNumber to random a Field element, store hash on chain
-    this.secretNumber = Field.random();
     this.secretNumberHash.set(Poseidon.hash([this.secretNumber]));
 
     // initialize contract fee + active + origin
-    let fee = new UInt64(2e9);
     this.fee.set(fee);
     this.active.set(Bool(true));
     this.origin.set(this.sender);
